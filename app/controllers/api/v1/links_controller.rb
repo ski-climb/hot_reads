@@ -1,7 +1,7 @@
 class Api::V1::LinksController < ApplicationController
 
   def create
-    link = Link.first_or_initialize(link_params)
+    link = Link.find_or_create_by(url: params[:link][:url])
     if link.valid?
       link.read_count += 1
       link.save
@@ -10,10 +10,4 @@ class Api::V1::LinksController < ApplicationController
       head 404
     end
   end
-
-  private
-
-    def link_params
-      params.require(:link).permit(:url)
-    end
 end
